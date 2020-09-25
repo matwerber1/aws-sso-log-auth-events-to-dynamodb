@@ -1,0 +1,16 @@
+{
+    "messageType": "DATA_MESSAGE",
+    "owner": "544941453660",
+    "logGroup": "CloudTrail/log-all-events",
+    "logStream": "o-5csdfze7w6_544941453660_CloudTrail_us-east-1",
+    "subscriptionFilters": [
+        "LambdaStream_sso-cloudwatch-log-processor"
+    ],
+    "logEvents": [
+        {
+            "id": "35705023027148197177906648883813468562593422667797692416",
+            "timestamp": 1601068605972,
+            "message": "{\"eventVersion\":\"1.05\",\"userIdentity\":{\"type\":\"Unknown\",\"principalId\":\"92671e33bb-5ca2bc95-c1be-436a-88f8-c457ab416bed\",\"accountId\":\"544941453660\",\"userName\":\"werberm@amazon.com\"},\"eventTime\":\"2020-09-25T21:07:58Z\",\"eventSource\":\"sso.amazonaws.com\",\"eventName\":\"Authenticate\",\"awsRegion\":\"us-west-2\",\"sourceIPAddress\":\"73.140.151.157\",\"userAgent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36\",\"requestParameters\":null,\"responseElements\":null,\"requestID\":\"995d786d-12cf-43b0-8fe0-04a45bced6a6\",\"eventID\":\"d5e686ea-4b40-4650-aa69-aad6afd48b01\",\"eventType\":\"AwsServiceEvent\",\"recipientAccountId\":\"544941453660\"}"
+        }
+    ]
+}

@@ -9,3 +9,7 @@ cdk.out
 
 # Parcel default cache directory
 .parcel-cache
+
+helper-cli-commands.sh
+
+!lib/lambda/*/index.js
