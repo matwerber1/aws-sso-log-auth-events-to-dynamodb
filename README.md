@@ -10,6 +10,19 @@ This project demonstrates how you can send your CloudTrail API logs to [Amazon C
 
 ![Image of Architecture](docs/diagram.png)
 
+## CloudTrail APIs / Scope
+
+Note - at present, this project demonstrates filtering and logging SSO `Authorize` API calls.
+
+It is not clear to me whether this is the only AWS SSO API call "of interest". I encourage you to read the AWS SSO API documentation and make your own decision as to which API call(s) are relevant to your logging needs:
+
+* [AWS SSO APIs](https://docs.aws.amazon.com/singlesignon/latest/APIReference/index.html)
+* [AWS SSO Identity Store APIs](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/index.html)
+* [AWS SSO OIDC APIs](https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/index.html)
+* [AWS SSO Portal APIs](https://docs.aws.amazon.com/singlesignon/latest/PortalAPIReference/index.html)
+
+**Important note** - At the time of this writing (September 2020), the `Authorize` API is not listed in the documentation above; I only became aware of it while reviewing my CloudTrail logs. This suggests that the AWS docs above may not be complete and I encourage you to carefully review CloudTrail to make sure you're including all APIs of interest to your needs. A colleague and I have submitted feedback to AWS asking that docs above be improved.
+
 ## Deployment
 
 1. [Install NodeJS 12](https://nodejs.org/en/download/) on your local dev environment.
