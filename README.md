@@ -1,4 +1,4 @@
-# Logging AWS SSO Authorize Events
+# Logging AWS SSO Login Events to Custom Data Stores
 
 When using [Amazon Single Sign-on (SSO)](https://aws.amazon.com/single-sign-on/), every login event (and other event types) are logged by [AWS CloudTrail](https://aws.amazon.com/cloudtrail/).
 
