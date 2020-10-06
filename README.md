@@ -12,16 +12,34 @@ This project demonstrates how you can send your CloudTrail API logs to [Amazon C
 
 ## CloudTrail APIs / Scope
 
-Note - at present, this project demonstrates filtering and logging SSO `Authorize` API calls.
+Note - at present, this project demonstrates filtering and logging SSO `Authorize`, `Logout`, and `Federate` API calls.
 
-It is not clear to me whether this is the only AWS SSO API call "of interest". I encourage you to read the AWS SSO API documentation and make your own decision as to which API call(s) are relevant to your logging needs:
+It is not clear to me whether these are the only AWS SSO API calls "of interest". I encourage you to read the AWS SSO API documentation and make your own decision as to which API call(s) are relevant to your logging needs:
 
 * [AWS SSO APIs](https://docs.aws.amazon.com/singlesignon/latest/APIReference/index.html)
 * [AWS SSO Identity Store APIs](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/index.html)
 * [AWS SSO OIDC APIs](https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/index.html)
 * [AWS SSO Portal APIs](https://docs.aws.amazon.com/singlesignon/latest/PortalAPIReference/index.html)
 
-**Important note** - At the time of this writing (September 2020), the `Authorize` API is not listed in the documentation above; I only became aware of it while reviewing my CloudTrail logs. This suggests that the AWS docs above may not be complete and I encourage you to carefully review CloudTrail to make sure you're including all APIs of interest to your needs. A colleague and I have submitted feedback to AWS asking that docs above be improved.
+### Example CloudTrail Logs
+
+Once you have CloudTrail set up to send API logs to CloudWatch, you can also use [CloudWatch Logs Insights](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AnalyzingLogData.html) to quickly search logs in an ad-hoc manner.
+
+An example Cloudwatch Logs Insights query is shown below:
+
+![Image of CloudWatch](docs/cloudwatch-logs.png)
+
+Here's a copy of the query above, you could adapt as needed: 
+
+```
+fields eventSource, eventName, userIdentity.userName, sourceIPAddress
+| filter eventSource = "sso.amazonaws.com" and eventName in ['Authenticate', 'Logout', 'Federate']
+| sort @timestamp desc
+| limit 200
+```
+
+
+**Important note** - At the time of this writing (September 2020), the `Authorize`, `Federate`, and `Logout` APIs are not listed in the documentation above; I only became aware of it while reviewing my CloudTrail logs. This suggests that the AWS docs above may not be complete and I encourage you to carefully review CloudTrail to make sure you're including all APIs of interest to your needs. A colleague and I have submitted feedback to AWS asking that docs above be improved.
 
 ## Deployment
 
@@ -67,9 +85,9 @@ It is not clear to me whether this is the only AWS SSO API call "of interest". I
 
 ## DynamoDB Table Schema
 
-In this example project, the DynamoDB table has a simple schema, containing only a hash key of `username`. This means that when a user logs in, their previous table item will be overwritten with the latest item. 
+In this example project, the DynamoDB table has a simple schema, containing a hash key of `username` nad sort key of `event` (which will either be `Authorize`, `Federate`, or `Logout`). This means that when the same user performs the same action, it will overwrite the previous item with the same username and event. 
 
-If you wanted to instead keep a history of past login attempts, you might consider a hash key of `username` and a sort key of `timestamp`, or something similar. You could adapt as needed. 
+If you wanted to instead keep a history of events, you might consider a hash key of `username` and a sort key that equals or incorporates a `timestamp`.
 
 ## Other strategies
 

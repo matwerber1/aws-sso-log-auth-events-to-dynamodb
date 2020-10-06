@@ -23,6 +23,10 @@ export class SsoLambdaStack extends cdk.Stack {
         name: 'username',
         type: dynamodb.AttributeType.STRING
       },
+      sortKey: {
+        name: 'event',
+        type: dynamodb.AttributeType.STRING
+      },
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
     });
 
@@ -47,7 +51,8 @@ export class SsoLambdaStack extends cdk.Stack {
       sourceArn: cloudwatchLogGroupArn
     });
 
-    const FILTER_PATTERN = logs.FilterPattern.literal('{$.eventSource = "sso.amazonaws.com" && $.eventName = "Authenticate"}');
+    // Only send Authenticate, Federate, and Logout messages to our Lambda: 
+    const FILTER_PATTERN = logs.FilterPattern.literal('{ $.eventSource = "sso.amazonaws.com" && ($.eventName = "Authenticate" || $.eventName = "Federate" || $.eventName = "Logout") }');
     const LOG_GROUP = logs.LogGroup.fromLogGroupName(this, 'CloudTrailLogGroup', LOG_GROUP_NAME);
 
     // The subscription filter tells our CloudWatch Log group to send matching events to our Lambda function: 
